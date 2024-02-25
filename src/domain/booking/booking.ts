@@ -46,15 +46,21 @@ export class BookingDao {
     return response;
   }
 
+  async getLastBooking(userId: number) {
+    const last = await this.findMyBooking(userId);
+    return last[last.length - 1];
+  }
+
   async update(data: Partial<IBooking>, bookingId: number) {
-    // const updatedAt = dayjs().format();
-    // console.log("updated data", updatedAt, bookingId);
-    // data[0].updatedAt = updatedAt;
+    const updatedAt = dayjs().toDate();
     const response = await connection.booking.update({
       where: {
         id: bookingId,
       },
-      data,
+      data: {
+        ...data,
+        updatedAt,
+      },
     });
     return response;
   }

@@ -72,8 +72,8 @@ describe("Booking", () => {
   });
 
   test("should read first booking ", async () => {
-    const booking = await bookingDao.findMyBooking(1);
-    expect(booking[0]).toMatchObject({
+    const booking = await bookingDao.getLastBooking(1);
+    expect(booking).toMatchObject({
       guests: "Jones, Martha, Maria, Jose",
       hasCheckingStarted: false,
       hasCheckoutComplete: false,
@@ -84,20 +84,19 @@ describe("Booking", () => {
     });
   });
 
-  //TODO: fix this one
-  // test("should be update my booking", async () => {
-  //   const myLastBooking = await bookingDao.findMyBooking(1);
-  //   myLastBooking[0].guests = "Jose, Maria";
-
-  //   const response = await bookingDao.update(myLastBooking[0], 23);
-  //   expect(response).toBeTruthy();
-  //   const afterUpdate = await bookingDao.findMyBooking(1);
-  //   console.log("updated ===>", afterUpdate);
-  // });
+  test("should be update my booking", async () => {
+    const myLastBooking = await bookingDao.getLastBooking(1);
+    const id = myLastBooking.id;
+    myLastBooking.guests = "Jose, Maria";
+    const response = await bookingDao.update(myLastBooking, id);
+    expect(response).toBeTruthy();
+    const updatedBooking = await bookingDao.getLastBooking(1);
+    expect(updatedBooking.updatedAt).not.toBeNull();
+  });
 
   test("should be possible to delete my booking", async () => {
-    const myLastBooking = await bookingDao.findMyBooking(1);
-    const response = await bookingDao.delete(myLastBooking[0].id);
+    const myLastBooking = await bookingDao.getLastBooking(1);
+    const response = await bookingDao.delete(myLastBooking.id);
     expect(response).toBeTruthy();
   });
 });
