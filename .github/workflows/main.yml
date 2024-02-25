@@ -2,6 +2,7 @@ name: CI/CD
 
 env:
   WELCOME_MESSAGE: We are here to help you with your Next.js project 🥳
+  DATABASE_URL: ${{ vars.DATABASE_URL }}
 
 on:
   push:
@@ -82,6 +83,9 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           useLockFile: false
+
+      - name: Seed DB
+        run: npx prisma db seed
 
       - name: Running test
         run: npm run test:unit
