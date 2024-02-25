@@ -29,8 +29,6 @@ describe("User", () => {
 
   test("should return an encrypted password", async () => {
     const userDao = new UserDao(user.name, user.email, user.password);
-    console.log("user dao", userDao);
-    // const password = await userDao.generatePassword();
     expect(userDao.password).not.toBe("#Test123");
   });
 
