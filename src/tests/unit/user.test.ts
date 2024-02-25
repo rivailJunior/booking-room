@@ -1,8 +1,9 @@
 //user
-import { connection, disconnect } from "@/infra/data-base";
+import { Email } from "@/domain/user/email.vo";
+import { Login } from "@/domain/user/login";
+import { UserDao } from "@/domain/user/user";
+import { disconnect } from "@/infra/data-base";
 import { describe, test, expect } from "vitest";
-import dayjs from "dayjs";
-import bcrypt from "bcryptjs";
 
 afterEach(() => {
   (async () => {
@@ -10,80 +11,45 @@ afterEach(() => {
   })();
 });
 
-async function generatePassword(password: string) {
-  const salt = bcrypt.genSaltSync(10);
-  return bcrypt.hashSync(password, salt);
-}
-
-async function checkPassword(password: string, hash: string) {
-  return bcrypt.compareSync(password, hash);
-}
-
-interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-}
-
-async function createNewUser(data: IUser) {
-  return await connection.user.upsert({
-    where: {
-      id: data.id,
-    },
-    create: data,
-    update: {},
-  });
-}
-
-async function doLogin(email: string, password: string) {
-  const user = await connection.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
-  if (user) {
-    const isValidPassword = await checkPassword(password, user?.password);
-    return isValidPassword;
-  }
-  return false;
-}
+const user = {
+  name: "Jhon Doe",
+  email: "jhondoe@gmail.com",
+  password: "#Test123",
+};
 
 describe("User", () => {
+  test("should return if email is valid or not", () => {
+    const email = new Email(user.email);
+    expect(email).toBeTruthy();
+  });
+
+  test("should throw error when email is not valid", async () => {
+    expect(() => new Email("jhondoe.com")).toThrowError("Invalid E-mail");
+  });
+
   test("should return an encrypted password", async () => {
-    const password = await generatePassword("#Test123");
-    console.log("password", password);
-    expect(password).not.toBe("#Test123");
+    const userDao = new UserDao(user.name, user.email, user.password);
+    console.log("user dao", userDao);
+    // const password = await userDao.generatePassword();
+    expect(userDao.password).not.toBe("#Test123");
   });
 
   test.each([
     ["$2a$10$NLNXvyeimdOkiLWCXuMPu.h9Z7hyfeUhhbElDm8rzm3T7wQpe.rzu", true],
     ["$2a$10$Nrzusss", false],
   ])("should validate password: %s", async (hash, validation) => {
-    const isValid = await checkPassword("#Test123", hash);
+    const isValid = await Login.checkPassword(user.password, hash);
     expect(isValid).toBe(validation);
   });
 
   test("should create/upsert a user", async () => {
-    const pwd = await generatePassword("#Test123");
-    const user = {
-      id: 1,
-      name: "Jhon Doe Santos",
-      email: "jhondoe@gmail.com",
-      password: pwd,
-    };
-    const response = await createNewUser(user);
+    const userDao = new UserDao(user.name, user.email, user.password);
+    const response = await userDao.create();
     expect(response).toBeTruthy();
-    // expect(response).toEqual({
-    //   id: 1,
-    //   email: "jhondoe@gmail.com",
-    //   name: "Jhon Doe",
-    //   password: "$2a$10$JHHgC7iaccKsEf7NLDVuie8wcC9iaEvKtL9p6s1b0QeP9kTMNUnAO",
-    // });
   });
 
   test("should do the user login", async () => {
-    const userLogin = await doLogin("jhondoe@gmail.com", "#Test123");
+    const userLogin = await Login.doLogin(user.email, user.password);
     expect(userLogin).toBeTruthy();
   });
 });
