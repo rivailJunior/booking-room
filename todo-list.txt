@@ -1,0 +1,15 @@
+# models
+create users model - id, name, email, password
+create hotel model - id, name
+create room model - id, hotel, description, pictures, price day
+
+create booking model - id, hotel, user, room, guests, checkin-date, checkout-date, created-date, updated-date, hasChecking, hasCheckout
+
+# tests-cases
+As a user I want to list the hotel rooms available
+As a user I want to list the hotel rooms available according to the dates
+As a user I want to create a booking
+As a user I want to update a booking
+As a user I want to read my booking
+As a user I want to delete a booking
+As a user I want to check the total amount per the period selected
