@@ -2,7 +2,7 @@ name: CI/CD
 
 env:
   WELCOME_MESSAGE: We are here to help you with your Next.js project 🥳
-  DATABASE_URL: ${{ vars.DATABASE_URL }}
+  DATABASE_URL: file:./dev.db
 
 on:
   push:
