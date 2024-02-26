@@ -1,7 +1,7 @@
 //user
 import { Email } from "@/domain/model/user/email.vo";
 import { Login } from "@/domain/model/user/login";
-import { UserDao } from "@/domain/model/user/user";
+import { UserDao } from "@/domain/model/user/user.dao";
 import connection, { disconnect } from "@/infra/data-base";
 import { describe, test, expect, vi } from "vitest";
 
