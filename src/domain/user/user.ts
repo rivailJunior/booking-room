@@ -2,13 +2,6 @@ import { connection } from "@/infra/data-base";
 import bcrypt from "bcryptjs";
 import { Email } from "./email.vo";
 
-interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-}
-
 export class UserDao {
   email: string;
   password: string;

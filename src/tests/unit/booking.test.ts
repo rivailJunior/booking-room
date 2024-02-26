@@ -3,7 +3,11 @@ import { connection, disconnect } from "@/infra/data-base";
 import { BookingDao } from "@/domain/booking/booking";
 import dayjs from "dayjs";
 import { DateTime } from "@/domain/booking/dateTime.vo";
+// import { mockDeep } from "vitest-mock-extended";
+// import { PrismaClient } from "@prisma/client";
 const bookingDao = new BookingDao(DateTime);
+
+// const prismaMock = mockDeep<PrismaClient>();
 
 afterEach(() => {
   (async () => {
