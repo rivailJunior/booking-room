@@ -1,16 +1,10 @@
 import connection from "@/infra/data-base";
 import dayjs from "dayjs";
 import { IDateTime } from "./dateTime.vo";
+import { BookingEntity, BookingProps } from "../entity/Booking.entity";
+import { IBookingDao } from "../interface/booking.interface";
 
-interface IBooking {
-  hotelId: number;
-  roomId: number;
-  userId: number;
-  guests: string;
-  checkinDate: Date;
-  checkoutDate: Date;
-}
-export class BookingDao {
+export class BookingDao implements IBookingDao {
   constructor(readonly dateTime: IDateTime) {}
 
   async findMyBooking(userId: number) {
@@ -21,7 +15,7 @@ export class BookingDao {
     });
   }
 
-  async create(data: IBooking) {
+  async create(data: BookingProps) {
     await this.dateTime.extractNumberOfDays(
       data.checkinDate,
       data.checkoutDate
@@ -46,7 +40,7 @@ export class BookingDao {
     return last[last.length - 1];
   }
 
-  async update(data: Partial<IBooking>, bookingId: number) {
+  async update(data: BookingEntity, bookingId: number) {
     await this.dateTime.extractNumberOfDays(
       data.checkinDate as Date,
       data.checkoutDate as Date
