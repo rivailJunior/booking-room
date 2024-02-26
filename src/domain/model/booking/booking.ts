@@ -1,8 +1,8 @@
 import connection from "@/infra/data-base";
 import dayjs from "dayjs";
 import { IDateTime } from "./dateTime.vo";
-import { BookingEntity, BookingProps } from "../entity/Booking.entity";
-import { IBookingDao } from "../interface/booking.interface";
+import { BookingEntity, BookingProps } from "../../entity/Booking.entity";
+import { IBookingDao } from "../../interface/booking.interface";
 
 export class BookingDao implements IBookingDao {
   constructor(readonly dateTime: IDateTime) {}

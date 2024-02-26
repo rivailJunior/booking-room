@@ -1,5 +1,5 @@
-import { BookingDao } from "../booking/booking";
-import { DateTime } from "../booking/dateTime.vo";
+import { BookingDao } from "../model/booking/booking";
+import { DateTime } from "../model/booking/dateTime.vo";
 import { BookingEntity, BookingProps } from "../entity/Booking.entity";
 
 /**

@@ -1,8 +1,8 @@
 import { describe, test, expect, vi } from "vitest";
 import connection, { disconnect } from "@/infra/data-base";
-import { BookingDao } from "@/domain/booking/booking";
+import { BookingDao } from "@/domain/model/booking/booking";
 import dayjs from "dayjs";
-import { DateTime } from "@/domain/booking/dateTime.vo";
+import { DateTime } from "@/domain/model/booking/dateTime.vo";
 const bookingDao = new BookingDao(DateTime);
 
 afterEach(() => {

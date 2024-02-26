@@ -22,7 +22,7 @@ const bookingUpdatedValues: BookingEntity = {
   guests: "Jose, Maria, Joao, Pedro",
 };
 
-vi.mock("../../domain/booking/booking", () => {
+vi.mock("../../domain/model/booking/booking", () => {
   return {
     BookingDao: vi.fn().mockImplementation(() => {
       return {
