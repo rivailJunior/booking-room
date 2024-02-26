@@ -6,4 +6,5 @@ const disconnect = async () => {
   await connection.$disconnect();
 };
 
-export { connection, disconnect };
+export default connection;
+export { disconnect };

@@ -1,4 +1,4 @@
-import { connection } from "@/infra/data-base";
+import connection from "@/infra/data-base";
 import dayjs from "dayjs";
 import { IDateTime } from "./dateTime.vo";
 

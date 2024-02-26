@@ -1,19 +1,34 @@
-import { describe, test, expect } from "vitest";
-import { connection, disconnect } from "@/infra/data-base";
+import { describe, test, expect, vi } from "vitest";
+import connection, { disconnect } from "@/infra/data-base";
 import { BookingDao } from "@/domain/booking/booking";
 import dayjs from "dayjs";
 import { DateTime } from "@/domain/booking/dateTime.vo";
-// import { mockDeep } from "vitest-mock-extended";
-// import { PrismaClient } from "@prisma/client";
 const bookingDao = new BookingDao(DateTime);
-
-// const prismaMock = mockDeep<PrismaClient>();
 
 afterEach(() => {
   (async () => {
     await disconnect();
   })();
 });
+
+const resolvedValueUpdate = {
+  id: 10,
+  guests: "Jones, Maria",
+  hasCheckingStarted: false,
+  hasCheckoutComplete: false,
+  hotelId: 1,
+  roomId: 1,
+  userId: 1,
+  checkinDate: dayjs().toDate(),
+  checkoutDate: dayjs().toDate(),
+  createdAt: dayjs().toDate(),
+  updatedAt: dayjs().toDate(),
+};
+
+const resolvedValueCreate = {
+  ...resolvedValueUpdate,
+  updatedAt: null,
+};
 
 //booking
 describe("Booking", () => {
@@ -68,42 +83,51 @@ describe("Booking", () => {
   });
 
   test("should create a booking", async () => {
+    vi.spyOn(connection.booking, "create").mockResolvedValue(
+      resolvedValueCreate
+    );
     const response = await bookingDao.create({
       hotelId: 1,
       roomId: 1,
       userId: 1,
-      guests: "Jones, Martha, Maria, Jose",
+      guests: "Jones, Maria",
       checkinDate: dayjs("2024-05-05").toDate(),
       checkoutDate: dayjs("2024-05-10").toDate(),
     });
     expect(response).toBeTruthy();
+    expect(response).toStrictEqual(resolvedValueCreate);
   });
 
   test("should read first booking ", async () => {
+    vi.spyOn(connection.booking, "findMany").mockResolvedValue([
+      resolvedValueCreate,
+    ]);
     const booking = await bookingDao.getLastBooking(1);
-    expect(booking).toMatchObject({
-      guests: "Jones, Martha, Maria, Jose",
-      hasCheckingStarted: false,
-      hasCheckoutComplete: false,
-      hotelId: 1,
-      roomId: 1,
-      updatedAt: null,
-      userId: 1,
-    });
+    expect(booking).toMatchObject(resolvedValueCreate);
   });
 
   test("should be update my booking", async () => {
     const myLastBooking = await bookingDao.getLastBooking(1);
     const id = myLastBooking.id;
     myLastBooking.guests = "Jose, Maria";
+
+    vi.spyOn(connection.booking, "update").mockResolvedValue(
+      resolvedValueUpdate
+    );
     const response = await bookingDao.update(myLastBooking, id);
     expect(response).toBeTruthy();
+    vi.spyOn(connection.booking, "findMany").mockResolvedValue([
+      resolvedValueUpdate,
+    ]);
     const updatedBooking = await bookingDao.getLastBooking(1);
     expect(updatedBooking.updatedAt).not.toBeNull();
   });
 
   test("should be possible to delete my booking", async () => {
     const myLastBooking = await bookingDao.getLastBooking(1);
+    vi.spyOn(connection.booking, "delete").mockResolvedValue(
+      resolvedValueCreate
+    );
     const response = await bookingDao.delete(myLastBooking.id);
     expect(response).toBeTruthy();
   });
