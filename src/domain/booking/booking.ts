@@ -1,5 +1,6 @@
 import { connection } from "@/infra/data-base";
 import dayjs from "dayjs";
+import { IDateTime } from "./dateTime.vo";
 
 interface IBooking {
   hotelId: number;
@@ -10,17 +11,7 @@ interface IBooking {
   checkoutDate: Date;
 }
 export class BookingDao {
-  constructor() {}
-
-  async extractNumberOfDays(startDay: string, endDay: string) {
-    const startDate = dayjs(startDay);
-    const endDate = dayjs(endDay);
-    const totalDays = endDate.diff(startDate, "day");
-    if (totalDays < 0) {
-      throw new Error("The dates are not correct");
-    }
-    return totalDays;
-  }
+  constructor(readonly dateTime: IDateTime) {}
 
   async findMyBooking(userId: number) {
     return await connection.booking.findMany({
@@ -31,6 +22,10 @@ export class BookingDao {
   }
 
   async create(data: IBooking) {
+    await this.dateTime.extractNumberOfDays(
+      data.checkinDate,
+      data.checkoutDate
+    );
     const response = await connection.booking.create({
       data,
     });
@@ -52,6 +47,10 @@ export class BookingDao {
   }
 
   async update(data: Partial<IBooking>, bookingId: number) {
+    await this.dateTime.extractNumberOfDays(
+      data.checkinDate as Date,
+      data.checkoutDate as Date
+    );
     const updatedAt = dayjs().toDate();
     const response = await connection.booking.update({
       where: {

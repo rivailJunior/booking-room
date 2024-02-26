@@ -2,7 +2,8 @@ import { describe, test, expect } from "vitest";
 import { connection, disconnect } from "@/infra/data-base";
 import { BookingDao } from "@/domain/booking/booking";
 import dayjs from "dayjs";
-const bookingDao = new BookingDao();
+import { DateTime } from "@/domain/booking/dateTime.vo";
+const bookingDao = new BookingDao(DateTime);
 
 afterEach(() => {
   (async () => {
@@ -27,9 +28,9 @@ describe("Booking", () => {
   );
 
   test("should extract the number of days between 2 dates", async () => {
-    const totalDays = await bookingDao.extractNumberOfDays(
-      "2024-02-20",
-      "2024-02-25"
+    const totalDays = await DateTime.extractNumberOfDays(
+      dayjs("2024-02-20").toDate(),
+      dayjs("2024-02-25").toDate()
     );
     expect(totalDays).toBe(5);
   });
@@ -43,9 +44,9 @@ describe("Booking", () => {
   ])(
     "should calculate amount according to 2 dates: %s",
     async (checkinDate, checkoutDate, amount) => {
-      const totalDays = await bookingDao.extractNumberOfDays(
-        checkinDate,
-        checkoutDate
+      const totalDays = await DateTime.extractNumberOfDays(
+        dayjs(checkinDate).toDate(),
+        dayjs(checkoutDate).toDate()
       );
       const hotelRoom = await connection.hotelRoom.findFirst();
       const calc = (hotelRoom?.dayPrice as any) * totalDays;
@@ -55,7 +56,10 @@ describe("Booking", () => {
 
   test("should throw error when try to choose two dates wrongly", async () => {
     await expect(
-      bookingDao.extractNumberOfDays("2024-02-25", "2024-02-20")
+      DateTime.extractNumberOfDays(
+        dayjs("2024-02-25").toDate(),
+        dayjs("2024-02-20").toDate()
+      )
     ).rejects.toThrow("The dates are not correct");
   });
 
@@ -98,5 +102,19 @@ describe("Booking", () => {
     const myLastBooking = await bookingDao.getLastBooking(1);
     const response = await bookingDao.delete(myLastBooking.id);
     expect(response).toBeTruthy();
+  });
+
+  test("should throw an error when pass invalid dates to create booking", async () => {
+    const bookingData = {
+      hotelId: 1,
+      roomId: 1,
+      userId: 1,
+      guests: "Jones, Martha, Maria, Jose",
+      checkinDate: dayjs("2024-05-10").toDate(),
+      checkoutDate: dayjs("2024-05-05").toDate(),
+    };
+    await expect(() => bookingDao.create(bookingData)).rejects.toThrowError(
+      "The dates are not correct"
+    );
   });
 });
