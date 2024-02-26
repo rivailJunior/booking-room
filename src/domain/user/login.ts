@@ -1,4 +1,4 @@
-import { connection } from "@/infra/data-base";
+import connection from "@/infra/data-base";
 import bcrypt from "bcryptjs";
 
 export class Login {

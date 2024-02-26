@@ -2,8 +2,8 @@
 import { Email } from "@/domain/user/email.vo";
 import { Login } from "@/domain/user/login";
 import { UserDao } from "@/domain/user/user";
-import { disconnect } from "@/infra/data-base";
-import { describe, test, expect } from "vitest";
+import connection, { disconnect } from "@/infra/data-base";
+import { describe, test, expect, vi } from "vitest";
 
 afterEach(() => {
   (async () => {
@@ -15,6 +15,13 @@ const user = {
   name: "Jhon Doe",
   email: "jhondoe@gmail.com",
   password: "#Test123",
+};
+
+const resolvedValueCreate = {
+  id: 1,
+  name: "Jhon Doe",
+  email: "jhondoe@gmail.com",
+  password: "$2a$10$NLNXvyeimdOkiLWCXuMPu.h9Z7hyfeUhhbElDm8rzm3T7wQpe.rzu",
 };
 
 describe("User", () => {
@@ -42,11 +49,16 @@ describe("User", () => {
 
   test("should create/upsert a user", async () => {
     const userDao = new UserDao(user.name, user.email, user.password);
+    vi.spyOn(connection.user, "upsert").mockResolvedValue(resolvedValueCreate);
     const response = await userDao.create();
     expect(response).toBeTruthy();
+    expect(response).toStrictEqual(resolvedValueCreate);
   });
 
   test("should do the user login", async () => {
+    vi.spyOn(connection.user, "findUnique").mockResolvedValue(
+      resolvedValueCreate
+    );
     const userLogin = await Login.doLogin(user.email, user.password);
     expect(userLogin).toBeTruthy();
   });
