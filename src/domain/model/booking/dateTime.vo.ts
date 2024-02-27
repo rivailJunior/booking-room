@@ -22,6 +22,6 @@ export class DateTime {
     dayjs.extend(isBetween);
     const start = dayjs(startDate);
     const end = dayjs(endDate);
-    return dayjs(date).isBetween(start, end);
+    return dayjs(date).isBetween(start, end, "day", "[)");
   }
 }
