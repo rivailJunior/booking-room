@@ -3,7 +3,7 @@ import connection, { disconnect } from "@/infra/data-base";
 import { BookingDao } from "@/domain/model/booking/booking.dao";
 import dayjs from "dayjs";
 import { DateTime } from "@/domain/model/booking/dateTime.vo";
-const bookingDao = new BookingDao(DateTime);
+const bookingDao = new BookingDao();
 
 afterEach(() => {
   (async () => {
