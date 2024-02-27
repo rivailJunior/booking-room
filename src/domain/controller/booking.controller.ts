@@ -1,5 +1,4 @@
 import { BookingDao } from "../model/booking/booking.dao";
-import { DateTime } from "../model/booking/dateTime.vo";
 import { BookingEntity, BookingProps } from "../entity/Booking.entity";
 
 /**
@@ -8,27 +7,27 @@ import { BookingEntity, BookingProps } from "../entity/Booking.entity";
 export class BookingController {
   constructor() {}
   async create(data: BookingProps): Promise<BookingEntity> {
-    const bookingDao = new BookingDao(DateTime);
+    const bookingDao = new BookingDao();
     const response = await bookingDao.create(data);
     //todo: apply any other logic here if necessary
     return response;
   }
   async update(data: BookingEntity) {
-    const bookingDao = new BookingDao(DateTime);
+    const bookingDao = new BookingDao();
     return await bookingDao.update(data, data.id);
   }
 
   async delete(bookingId: number) {
-    const bookingDao = new BookingDao(DateTime);
+    const bookingDao = new BookingDao();
     return await bookingDao.delete(bookingId);
   }
   async getAll(userId: number) {
-    const bookingDao = new BookingDao(DateTime);
+    const bookingDao = new BookingDao();
     return await bookingDao.findMyBooking(userId);
   }
 
   async getLast(userId: number) {
-    const bookingDao = new BookingDao(DateTime);
+    const bookingDao = new BookingDao();
     return await bookingDao.getLastBooking(userId);
   }
 }
