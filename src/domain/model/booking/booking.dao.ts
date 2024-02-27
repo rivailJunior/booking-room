@@ -54,4 +54,13 @@ export class BookingDao implements IBookingDao {
     });
     return response;
   }
+
+  async findRoomBooking(roomId: number, hotelId: number) {
+    return await connection.booking.findMany({
+      where: {
+        roomId,
+        hotelId,
+      },
+    });
+  }
 }

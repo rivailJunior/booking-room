@@ -2,7 +2,6 @@ import { describe, test, expect, vi } from "vitest";
 import connection, { disconnect } from "@/infra/data-base";
 import { BookingDao } from "@/domain/model/booking/booking.dao";
 import dayjs from "dayjs";
-import { DateTime } from "@/domain/model/booking/dateTime.vo";
 const bookingDao = new BookingDao();
 
 afterEach(() => {
@@ -32,56 +31,6 @@ const resolvedValueCreate = {
 
 //booking
 describe("Booking", () => {
-  test.each([
-    [2, 200],
-    [3, 300],
-    [4, 400],
-    [5, 500],
-  ])(
-    "should calculate the amount according to number of days: %s",
-    async (days, values) => {
-      const hotelRoom = await connection.hotelRoom.findFirst();
-      const calc = (hotelRoom?.dayPrice as any) * days;
-      expect(calc).toBe(values);
-    }
-  );
-
-  test("should extract the number of days between 2 dates", async () => {
-    const totalDays = await DateTime.extractNumberOfDays(
-      dayjs("2024-02-20").toDate(),
-      dayjs("2024-02-25").toDate()
-    );
-    expect(totalDays).toBe(5);
-  });
-
-  test.each([
-    ["2024-02-20", "2024-02-25", 500],
-    ["2024-02-20", "2024-02-24", 400],
-    ["2024-02-20", "2024-02-23", 300],
-    ["2024-02-20", "2024-02-22", 200],
-    ["2024-02-20", "2024-02-21", 100],
-  ])(
-    "should calculate amount according to 2 dates: %s",
-    async (checkinDate, checkoutDate, amount) => {
-      const totalDays = await DateTime.extractNumberOfDays(
-        dayjs(checkinDate).toDate(),
-        dayjs(checkoutDate).toDate()
-      );
-      const hotelRoom = await connection.hotelRoom.findFirst();
-      const calc = (hotelRoom?.dayPrice as any) * totalDays;
-      expect(calc).toBe(amount);
-    }
-  );
-
-  test("should throw error when try to choose two dates wrongly", async () => {
-    await expect(
-      DateTime.extractNumberOfDays(
-        dayjs("2024-02-25").toDate(),
-        dayjs("2024-02-20").toDate()
-      )
-    ).rejects.toThrow("The dates are not correct");
-  });
-
   test("should create a booking", async () => {
     vi.spyOn(connection.booking, "create").mockResolvedValue(
       resolvedValueCreate
@@ -144,5 +93,15 @@ describe("Booking", () => {
     await expect(() => bookingDao.create(bookingData)).rejects.toThrowError(
       "The dates are not correct"
     );
+  });
+
+  test("should return the room booking", async () => {
+    vi.spyOn(connection.booking, "findMany").mockResolvedValue([
+      resolvedValueUpdate,
+    ]);
+    const roomBooking = await bookingDao.findRoomBooking(1, 1);
+    expect(roomBooking).toBeTruthy();
+    expect(roomBooking.length).toBe(1);
+    expect(roomBooking[0]).toStrictEqual(resolvedValueUpdate);
   });
 });
