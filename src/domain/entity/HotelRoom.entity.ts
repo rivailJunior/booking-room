@@ -4,4 +4,8 @@ export interface HotelRoomEntity {
   description: string;
   pictures: string;
   dayPrice: number;
+  hotel?: {
+    id: number;
+    name: string;
+  };
 }

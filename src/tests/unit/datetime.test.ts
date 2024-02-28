@@ -1,7 +1,8 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import connection, { disconnect } from "@/infra/data-base";
 import dayjs from "dayjs";
 import { DateTime } from "@/domain/model/booking/dateTime.vo";
+import { Prisma } from "@prisma/client";
 
 afterEach(() => {
   (async () => {
@@ -37,6 +38,13 @@ describe("DateTime", () => {
   ])(
     "should calculate the amount according to number of days: %s",
     async (days, values) => {
+      vi.spyOn(connection.hotelRoom, "findFirst").mockResolvedValue({
+        id: 1,
+        hotelId: 1,
+        description: "A1",
+        pictures: "/public/rooms/hotel-brazil",
+        dayPrice: new Prisma.Decimal(100),
+      });
       const hotelRoom = await connection.hotelRoom.findFirst();
       const calc = (hotelRoom?.dayPrice as any) * days;
       expect(calc).toBe(values);
@@ -64,6 +72,13 @@ describe("DateTime", () => {
         dayjs(checkinDate).toDate(),
         dayjs(checkoutDate).toDate()
       );
+      vi.spyOn(connection.hotelRoom, "findFirst").mockResolvedValue({
+        id: 1,
+        hotelId: 1,
+        description: "A1",
+        pictures: "/public/rooms/hotel-brazil",
+        dayPrice: new Prisma.Decimal(100),
+      });
       const hotelRoom = await connection.hotelRoom.findFirst();
       const calc = (hotelRoom?.dayPrice as any) * totalDays;
       expect(calc).toBe(amount);
