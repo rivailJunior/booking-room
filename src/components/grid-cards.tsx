@@ -8,13 +8,13 @@ function imageHelper(src: string) {
 }
 
 type GridCardsProps = {
-  cards: Omit<HotelRoomEntity, "id">[];
+  cards: HotelRoomEntity[] | undefined;
 };
 
 export function GridCards({ cards }: GridCardsProps) {
   return (
     <div className="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      {cards.map((card, index) => (
+      {cards?.map((card, index) => (
         <div key={index} className="p-4 bg-gray-100 rounded-lg shadow-sm">
           <Image
             width={400}

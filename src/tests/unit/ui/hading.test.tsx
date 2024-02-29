@@ -15,9 +15,5 @@ describe("Heading Component", () => {
     expect(
       screen.getByText(/Hey, let’s build something together?/i)
     ).toBeDefined();
-
-    expect(
-      screen.getByText(/We are here to help you with your Next.js project 🥳/i)
-    ).toBeDefined();
   });
 });

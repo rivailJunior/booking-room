@@ -1,4 +1,4 @@
-import GridCards from "@/components/grid-cards";
+import { GridCards } from "@/components/";
 import { HotelRoomEntity } from "@/domain/entity/HotelRoom.entity";
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
@@ -20,7 +20,9 @@ const cards: Omit<HotelRoomEntity, "id">[] = [
 ];
 describe("GridCards", () => {
   it("renders cards with their details", () => {
-    const { getAllByText, getAllByRole } = render(<GridCards cards={cards} />);
+    const { getAllByText, getAllByRole } = render(
+      <GridCards cards={cards as any} />
+    );
 
     expect(getAllByText("Room 1")).toHaveLength(1);
     expect(getAllByText("$ 100")).toHaveLength(1);
