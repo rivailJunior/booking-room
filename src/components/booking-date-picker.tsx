@@ -13,7 +13,6 @@ const BookingDatePicker = ({ onHandleChange }: BookingDatePickerProps) => {
   });
 
   const handleValueChange = (newValue: any) => {
-    console.log("newValue:", newValue);
     onHandleChange(newValue);
     setValue(newValue);
   };

@@ -8,4 +8,19 @@ export interface HotelRoomEntity {
     id: number;
     name: string;
   };
+  bookings?: [
+    {
+      id: number;
+      createdAt: Date;
+      updatedAt: Date | null;
+      hasCheckingStarted: boolean;
+      hasCheckoutComplete: boolean;
+      hotelId: number;
+      userId: number;
+      roomId: number;
+      guests: string;
+      checkinDate: Date;
+      checkoutDate: Date;
+    }
+  ];
 }

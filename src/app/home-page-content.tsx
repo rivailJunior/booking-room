@@ -2,27 +2,21 @@
 
 import { Form, GridCards } from "@/components";
 import { HotelRoomEntity } from "@/domain/entity/HotelRoom.entity";
-import { HotelRoomService } from "@/domain/service/hotel-rooms.ds";
-import AppProvider, { AppContext } from "@/provider/app-provider";
-import { useCallback, useContext } from "react";
+import useFilterHotelRooms from "@/hook/useFilterHotelRooms";
+import AppProvider from "@/provider/app-provider";
+import { formType } from "@/type/search-form";
 
 type HomePageContentProps = {
   hotelRooms: HotelRoomEntity[];
 };
 function Content({ hotelRooms }: HomePageContentProps) {
-  const { place } = useContext(AppContext);
-
-  const filterHotelRooms = useCallback(() => {
-    if (place.length > 3) {
-      const filteredRooms = HotelRoomService.filterByPlace(hotelRooms, place);
-      return filteredRooms;
-    }
-    return hotelRooms;
-  }, [place]);
-
+  const { filterHotelRooms } = useFilterHotelRooms(hotelRooms);
+  const onHandleSubmitForm = (data: formType) => {
+    console.log({ data });
+  };
   return (
     <>
-      <Form onHandleSubmit={(data) => console.log({ data })} />
+      <Form onHandleSubmit={onHandleSubmitForm} />
       <GridCards cards={filterHotelRooms()} />
     </>
   );

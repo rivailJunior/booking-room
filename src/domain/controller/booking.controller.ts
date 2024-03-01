@@ -36,6 +36,7 @@ export class BookingController {
     const response = await bookingDao.create(data);
     return response;
   }
+
   async update(data: BookingEntity) {
     const bookingDao = new BookingDao();
     return await bookingDao.update(data, data.id);

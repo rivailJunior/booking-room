@@ -1,24 +1,11 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { BookingDatePicker } from ".";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AppContext } from "@/provider/app-provider";
 
-const formSchema = z.object({
-  country: z.string().min(1, { message: "You should select one place!" }),
-  dates: z.object({
-    startDate: z.string().min(1, { message: "You should select one date!" }),
-    endDate: z.string().min(1, { message: "You should select one date!" }),
-  }),
-});
-
-type formType = z.infer<typeof formSchema>;
-
-type FormProps = {
-  onHandleSubmit: (value: formType) => void;
-};
+import { FormProps, formSchema, formType } from "@/type/search-form";
+import useSearchForm from "@/hook/useSearchForm";
 
 /**
  * TODO:
@@ -26,7 +13,7 @@ type FormProps = {
  * * maybe add a context api to retrieve the data and pass it for the other page (booking page checkout)
  * [] - add the logic to validate submit just when the user select place, dates and choose one option card
  * * the button should be disable and after all the validations the button should be enabled
- * add red color for the errors
+ * [x] - add red color for the errors
  */
 export function Form({ onHandleSubmit }: FormProps) {
   const {
@@ -34,40 +21,28 @@ export function Form({ onHandleSubmit }: FormProps) {
     handleSubmit,
     setValue,
     watch,
+    clearErrors,
     formState: { errors },
   } = useForm<formType>({
     resolver: zodResolver(formSchema),
   });
   const countryFieldValue: string = watch("country");
 
-  const { initBooking, setPlace } = useContext(AppContext);
-
-  const onSubmit = (data: any) => {
-    onHandleSubmit(data);
-    initBooking({
-      checkinDate: data.dates.startDate,
-      checkoutDate: data.dates.endDate,
-    });
-  };
-
-  const onHandleChange = (value: any) => {
-    setValue("dates", value);
-  };
-
-  useEffect(() => {
-    if (countryFieldValue) {
-      setPlace(countryFieldValue);
-    }
-  }, [countryFieldValue, setPlace]);
+  const { onSubmit, onHandleChange } = useSearchForm(
+    onHandleSubmit,
+    setValue,
+    clearErrors,
+    countryFieldValue
+  );
 
   return (
     <div className="w-full rounded-sm bg-gray-100 p-2 mb-4">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full flex justify-center py-2"
-      >
-        <div className="flex gap-4 items-end flex-col md:flex-row">
-          <InputWrapper label="Where are you going?">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full flex ">
+        <div className="flex gap-4 items-end flex-col md:flex-row w-full px-4 py-4">
+          <InputWrapper
+            label="Where are you going?"
+            error={errors.country?.message}
+          >
             <input
               type="text"
               id="country"
@@ -75,7 +50,7 @@ export function Form({ onHandleSubmit }: FormProps) {
               {...register("country")}
             />
           </InputWrapper>
-          <InputWrapper label="When will you go?">
+          <InputWrapper label="When will you go?" error={errors.dates?.message}>
             <BookingDatePicker onHandleChange={onHandleChange} />
           </InputWrapper>
           <div>
@@ -95,8 +70,10 @@ export function Form({ onHandleSubmit }: FormProps) {
 function InputWrapper({
   children,
   label,
+  error,
 }: {
   label: string;
+  error: any;
   children: React.ReactNode;
 }) {
   return (
@@ -104,7 +81,19 @@ function InputWrapper({
       <label htmlFor="name" className="block text-sm font-medium text-gray-700">
         {label}
       </label>
-      <div className="mt-1">{children}</div>
+      <div className="mt-1">
+        {children}
+        {error && (
+          <>
+            <p
+              id="filled_error_help"
+              className="mt-2 text-xs text-red-600 dark:text-red-400"
+            >
+              <span className="font-medium">{error}</span>
+            </p>
+          </>
+        )}
+      </div>
     </div>
   );
 }
