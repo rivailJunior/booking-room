@@ -1,19 +1,15 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BookingDatePicker } from ".";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { FormProps, formSchema, formType } from "@/type/search-form";
 import useSearchForm from "@/hook/useSearchForm";
 
 /**
  * TODO:
- * [x] - add the logic to start the booking -
- * * maybe add a context api to retrieve the data and pass it for the other page (booking page checkout)
- * [] - add the logic to validate submit just when the user select place, dates and choose one option card
- * * the button should be disable and after all the validations the button should be enabled
  * [x] - add red color for the errors
+ * [] - validate the errors
  */
 export function Form({ onHandleSubmit }: FormProps) {
   const {
@@ -58,7 +54,7 @@ export function Form({ onHandleSubmit }: FormProps) {
               type="submit"
               className="bg-blue-500 py-2.5 rounded-lg px-5 text-white"
             >
-              Search
+              Proceed
             </button>
           </div>
         </div>

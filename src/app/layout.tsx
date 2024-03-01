@@ -35,7 +35,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ThemeButton />
-          {children}
+          <main className="flex min-h-screen container dark:bg-slate-900 flex-col">
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>

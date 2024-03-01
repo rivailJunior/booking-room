@@ -1,7 +1,7 @@
 import { AppContext } from "@/provider/app-provider";
 import { formType } from "@/type/search-form";
 import dayjs from "dayjs";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 export default function useSearchForm(
   onHandleSubmit: (data: formType) => void,
@@ -9,7 +9,7 @@ export default function useSearchForm(
   clearErrors: any,
   countryFieldValue: string
 ) {
-  const { initBooking, setPlace } = useContext(AppContext);
+  const { initBooking, setPlace, booking } = useContext(AppContext);
 
   useEffect(() => {
     if (countryFieldValue) {
@@ -36,6 +36,7 @@ export default function useSearchForm(
       setValue("dates", value);
       clearErrors("dates");
       return initBooking({
+        ...booking,
         checkinDate: dayjs(value.startDate).toDate(),
         checkoutDate: dayjs(value.endDate).toDate(),
       });

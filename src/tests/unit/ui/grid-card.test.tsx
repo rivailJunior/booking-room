@@ -21,7 +21,7 @@ const cards: Omit<HotelRoomEntity, "id">[] = [
 describe("GridCards", () => {
   it("renders cards with their details", () => {
     const { getAllByText, getAllByRole } = render(
-      <GridCards cards={cards as any} />
+      <GridCards cards={cards as any} handleCardClick={() => {}} />
     );
 
     expect(getAllByText("Room 1")).toHaveLength(1);

@@ -3,6 +3,7 @@ import connection, { disconnect } from "@/infra/data-base";
 import dayjs from "dayjs";
 import { DateTime } from "@/domain/model/booking/dateTime.vo";
 import { Prisma } from "@prisma/client";
+import { BookingService } from "@/domain/service/booking.ds";
 
 afterEach(() => {
   (async () => {
@@ -68,10 +69,6 @@ describe("DateTime", () => {
   ])(
     "should calculate amount according to 2 dates: %s",
     async (checkinDate, checkoutDate, amount) => {
-      const totalDays = await DateTime.extractNumberOfDays(
-        dayjs(checkinDate).toDate(),
-        dayjs(checkoutDate).toDate()
-      );
       vi.spyOn(connection.hotelRoom, "findFirst").mockResolvedValue({
         id: 1,
         hotelId: 1,
@@ -80,7 +77,12 @@ describe("DateTime", () => {
         dayPrice: new Prisma.Decimal(100),
       });
       const hotelRoom = await connection.hotelRoom.findFirst();
-      const calc = (hotelRoom?.dayPrice as any) * totalDays;
+      // const calc = (hotelRoom?.dayPrice as any) * totalDays;
+      const calc = BookingService.calculate(
+        dayjs(checkinDate).toDate(),
+        dayjs(checkoutDate).toDate(),
+        hotelRoom?.dayPrice as any
+      );
       expect(calc).toBe(amount);
     }
   );
