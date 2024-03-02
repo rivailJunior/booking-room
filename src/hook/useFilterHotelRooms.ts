@@ -1,8 +1,8 @@
 import { HotelRoomEntity } from "@/domain/entity/HotelRoom.entity";
 import { BookingService } from "@/domain/service/booking.ds";
+import { DateTime } from "@/domain/service/dateTime.ds";
 import { HotelRoomService } from "@/domain/service/hotel-rooms.ds";
 import { AppContext } from "@/provider/app-provider";
-import dayjs from "dayjs";
 import { useCallback, useContext, useMemo, useState } from "react";
 
 export default function useFilterHotelRooms(hotelRooms: HotelRoomEntity[]) {
@@ -30,10 +30,20 @@ export default function useFilterHotelRooms(hotelRooms: HotelRoomEntity[]) {
   }, [hotelRooms, place, booking]);
 
   const totalPrice = useMemo(() => {
-    if (booking?.checkinDate && booking?.checkoutDate) {
+    if (!card?.id) return 0;
+    const isValidCheckin =
+      booking?.checkinDate && DateTime.isValid(booking?.checkinDate as Date);
+    const isValidCheckout =
+      booking?.checkinDate && DateTime.isValid(booking?.checkoutDate as Date);
+
+    if (card && !isValidCheckin && !isValidCheckout) {
+      return BookingService.priceFormatter().format(card?.dayPrice);
+    }
+
+    if (isValidCheckin && isValidCheckout) {
       return BookingService.calculate(
-        dayjs(booking?.checkinDate).toDate(),
-        dayjs(booking?.checkoutDate).toDate(),
+        DateTime.formatDate(booking?.checkinDate as Date),
+        DateTime.formatDate(booking?.checkoutDate as Date),
         card?.dayPrice
       );
     }

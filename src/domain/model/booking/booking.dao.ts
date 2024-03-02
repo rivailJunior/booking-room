@@ -1,6 +1,6 @@
 import connection from "@/infra/data-base";
 import dayjs from "dayjs";
-import { DateTime } from "./dateTime.vo";
+import { DateTime } from "../../service/dateTime.ds";
 import { BookingEntity, BookingProps } from "../../entity/Booking.entity";
 import { IBookingDao } from "../../interface/booking.interface";
 

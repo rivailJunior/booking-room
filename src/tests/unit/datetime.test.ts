@@ -1,7 +1,7 @@
 import { describe, test, expect, vi } from "vitest";
 import connection, { disconnect } from "@/infra/data-base";
 import dayjs from "dayjs";
-import { DateTime } from "@/domain/model/booking/dateTime.vo";
+import { DateTime } from "@/domain/service/dateTime.ds";
 import { Prisma } from "@prisma/client";
 import { BookingService } from "@/domain/service/booking.ds";
 
@@ -83,7 +83,7 @@ describe("DateTime", () => {
         dayjs(checkoutDate).toDate(),
         hotelRoom?.dayPrice as any
       );
-      expect(calc).toBe(amount);
+      expect(calc).toBe(BookingService.priceFormatter().format(amount));
     }
   );
 

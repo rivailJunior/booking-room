@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+import utc from "dayjs/plugin/utc";
 
 export interface IDateTime {
   extractNumberOfDays: (startDate: Date, endDate: Date) => Promise<number>;
@@ -20,8 +21,16 @@ export class DateTime {
   static isBetween(startDate: Date, endDate: Date, date: Date) {
     this.extractNumberOfDays(startDate, endDate);
     dayjs.extend(isBetween);
-    const start = dayjs(startDate);
-    const end = dayjs(endDate);
+    const start = this.formatDate(startDate);
+    const end = this.formatDate(endDate);
     return dayjs(date).isBetween(start, end, "day", "[)");
+  }
+
+  static isValid(date: Date | string) {
+    return dayjs(date).isValid();
+  }
+
+  static formatDate(date: Date | string) {
+    return dayjs(date).toDate();
   }
 }

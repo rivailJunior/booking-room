@@ -1,6 +1,6 @@
 import { BookingDao } from "../model/booking/booking.dao";
 import { BookingEntity, BookingProps } from "../entity/Booking.entity";
-import { DateTime } from "../model/booking/dateTime.vo";
+import { DateTime } from "../service/dateTime.ds";
 
 /**
  * should be used by the front-end

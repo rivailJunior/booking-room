@@ -1,6 +1,6 @@
+import { DateTime } from "@/domain/service/dateTime.ds";
 import { AppContext } from "@/provider/app-provider";
 import { formType } from "@/type/search-form";
-import dayjs from "dayjs";
 import { useContext, useEffect } from "react";
 
 export default function useSearchForm(
@@ -23,8 +23,8 @@ export default function useSearchForm(
   const onSubmit = (data: formType) => {
     onHandleSubmit(data);
     initBooking({
-      checkinDate: dayjs(data.dates.startDate).toDate(),
-      checkoutDate: dayjs(data.dates.endDate).toDate(),
+      checkinDate: DateTime.formatDate(data.dates.startDate),
+      checkoutDate: DateTime.formatDate(data.dates.endDate),
     });
   };
 
@@ -35,10 +35,12 @@ export default function useSearchForm(
     if (value) {
       setValue("dates", value);
       clearErrors("dates");
+      const checkin = DateTime.formatDate(value.startDate);
+      const checkout = DateTime.formatDate(value.endDate);
       return initBooking({
         ...booking,
-        checkinDate: dayjs(value.startDate).toDate(),
-        checkoutDate: dayjs(value.endDate).toDate(),
+        checkinDate: checkin,
+        checkoutDate: checkout,
       });
     }
   };

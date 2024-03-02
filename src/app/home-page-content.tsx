@@ -2,7 +2,6 @@
 
 import { Form, GridCards } from "@/components";
 import { HotelRoomEntity } from "@/domain/entity/HotelRoom.entity";
-import { BookingService } from "@/domain/service/booking.ds";
 import useFilterHotelRooms from "@/hook/useFilterHotelRooms";
 import AppProvider from "@/provider/app-provider";
 import { formType } from "@/type/search-form";
@@ -16,16 +15,19 @@ function Content({ hotelRooms }: HomePageContentProps) {
 
   const { filterHotelRooms, handleCardClick, booking, totalPrice } =
     useFilterHotelRooms(hotelRooms);
-  const onHandleSubmitForm = (data: formType) => {
+  const onHandleSubmitForm = (_: formType) => {
     if (!booking?.roomId) return; //TODO: call an error here (modal)
     console.log({ booking });
     router.push("/booking-checkout");
   };
 
-  console.log("total Price", totalPrice);
-
   return (
     <>
+      {totalPrice ? (
+        <div className="font-bold bg-slate-200 px-10 py-3 flex justify-end text-blue-500">
+          <span className="text-black mr-2">Total:</span> {totalPrice}
+        </div>
+      ) : null}
       <Form onHandleSubmit={onHandleSubmitForm} />
       <GridCards cards={filterHotelRooms()} handleCardClick={handleCardClick} />
     </>

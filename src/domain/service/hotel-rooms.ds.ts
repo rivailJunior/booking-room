@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { HotelRoomEntity } from "../entity/HotelRoom.entity";
-import { DateTime } from "../model/booking/dateTime.vo";
+import { DateTime } from "./dateTime.ds";
 
 export class HotelRoomService {
   static filterByPlace(hotelRooms: HotelRoomEntity[], place: string) {
