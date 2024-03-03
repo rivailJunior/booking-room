@@ -4,7 +4,6 @@ import { Form, GridCards } from "@/components";
 import { HotelRoomEntity } from "@/domain/entity/HotelRoom.entity";
 import useFilterHotelRooms from "@/hook/useFilterHotelRooms";
 import AppProvider from "@/provider/app-provider";
-import { formType } from "@/type/search-form";
 import { useRouter } from "next/navigation";
 
 type HomePageContentProps = {
@@ -13,12 +12,21 @@ type HomePageContentProps = {
 function Content({ hotelRooms }: HomePageContentProps) {
   const router = useRouter();
 
-  const { filterHotelRooms, handleCardClick, booking, totalPrice } =
+  const { filterHotelRooms, handleCardClick, booking, totalPrice, card } =
     useFilterHotelRooms(hotelRooms);
-  const onHandleSubmitForm = (_: formType) => {
+  const onHandleSubmitForm = async () => {
     if (!booking?.roomId) return; //TODO: call an error here (modal)
-    console.log({ booking });
-    router.push("/booking-checkout");
+
+    const bookingValues = {
+      booking,
+      card,
+      totalPrice,
+    };
+    await fetch("http://localhost:3000/api/booking", {
+      method: "POST",
+      body: JSON.stringify(bookingValues),
+    });
+    // router.push("/booking-checkout");
   };
 
   return (

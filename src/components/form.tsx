@@ -1,16 +1,11 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { BookingDatePicker } from ".";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProps, formSchema, formType } from "@/type/search-form";
 import useSearchForm from "@/hook/useSearchForm";
 
-/**
- * TODO:
- * [x] - add red color for the errors
- * [] - validate the errors
- */
 export function Form({ onHandleSubmit }: FormProps) {
   const {
     register,

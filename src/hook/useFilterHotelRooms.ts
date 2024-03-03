@@ -55,5 +55,6 @@ export default function useFilterHotelRooms(hotelRooms: HotelRoomEntity[]) {
     handleCardClick,
     booking,
     totalPrice,
+    card,
   };
 }

@@ -33,4 +33,8 @@ export class DateTime {
   static formatDate(date: Date | string) {
     return dayjs(date).toDate();
   }
+
+  static formatDateHumanized(date: Date | string) {
+    return dayjs(date).format("YYYY-MM-DD");
+  }
 }

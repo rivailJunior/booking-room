@@ -11,6 +11,7 @@ export interface IUseBooking {
 export function useBooking(): IUseBooking {
   const [booking, initBooking] = useState<Partial<BookingEntity>>();
   const [place, setPlace] = useState<string>("");
+
   return {
     initBooking,
     booking,

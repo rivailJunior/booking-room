@@ -2,14 +2,14 @@ export interface BookingEntity {
   hotelId: number;
   roomId: number;
   userId: number;
-  guests: string;
+  guests?: string;
   checkinDate: Date;
   checkoutDate: Date;
-  id: number;
-  createdAt: Date;
-  updatedAt: Date | null;
-  hasCheckingStarted: boolean;
-  hasCheckoutComplete: boolean;
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date | null;
+  hasCheckingStarted?: boolean;
+  hasCheckoutComplete?: boolean;
 }
 
 export type BookingProps = {
@@ -19,4 +19,5 @@ export type BookingProps = {
   guests: string;
   checkinDate: Date;
   checkoutDate: Date;
+  price: number;
 };
