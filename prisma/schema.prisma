@@ -47,4 +47,5 @@ model Booking {
   hotelRoom           HotelRoom @relation(fields: [roomId], references: [id])
   user                User      @relation(fields: [userId], references: [id])
   hotel               Hotel     @relation(fields: [hotelId], references: [id])
+  price               Decimal
 }

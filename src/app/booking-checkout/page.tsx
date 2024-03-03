@@ -25,7 +25,8 @@ export default async function BookingCheckoutCard() {
       price: booking.price,
     };
     const bookingController = new BookingController();
-    bookingController.create(bookingData);
+    const response = await bookingController.create(bookingData);
+    console.log("response", response);
   };
 
   return (

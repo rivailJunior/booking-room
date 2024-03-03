@@ -26,7 +26,7 @@ function Content({ hotelRooms }: HomePageContentProps) {
       method: "POST",
       body: JSON.stringify(bookingValues),
     });
-    // router.push("/booking-checkout");
+    router.push("/booking-checkout");
   };
 
   return (
