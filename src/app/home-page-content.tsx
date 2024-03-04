@@ -1,7 +1,7 @@
 "use client";
-
 import { Form, GridCards } from "@/components";
 import { HotelRoomEntity } from "@/domain/entity/HotelRoom.entity";
+import { BookingService } from "@/domain/service/booking.ds";
 import useFilterHotelRooms from "@/hook/useFilterHotelRooms";
 import AppProvider from "@/provider/app-provider";
 import { useRouter } from "next/navigation";
@@ -35,16 +35,17 @@ function Content({ hotelRooms }: HomePageContentProps) {
     router.push("/booking-checkout");
     router.refresh();
   };
-
+  const filteredRooms = filterHotelRooms();
   return (
     <>
       {totalPrice ? (
         <div className="font-bold bg-slate-200 px-10 py-3 flex justify-end text-blue-500">
-          <span className="text-black mr-2">Total:</span> {totalPrice}
+          <span className="text-black mr-2">Total:</span>{" "}
+          {BookingService.priceFormatter().format(totalPrice)}
         </div>
       ) : null}
       <Form onHandleSubmit={onHandleSubmitForm} btnDisabled={isBtnDisabled} />
-      <GridCards cards={filterHotelRooms()} handleCardClick={handleCardClick} />
+      <GridCards cards={filteredRooms} handleCardClick={handleCardClick} />
     </>
   );
 }

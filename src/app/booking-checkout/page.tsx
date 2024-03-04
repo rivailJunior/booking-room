@@ -4,6 +4,7 @@ import { DateTime } from "@/domain/service/dateTime.ds";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { BookingService } from "@/domain/service/booking.ds";
 
 const getBooking = () => {
   const cookieStore = cookies();
@@ -14,10 +15,6 @@ const getBooking = () => {
 const deleteBooking = () => {
   const cookieStore = cookies();
   cookieStore.delete("booking");
-};
-
-const stringPriceToNumber = (price: string) => {
-  return Number(price.replace(/\D/g, ""));
 };
 
 export default async function BookingCheckoutCard() {
@@ -31,9 +28,10 @@ export default async function BookingCheckoutCard() {
       redirect("/");
     } else {
       const guest = formData.get("guests");
-      const price = stringPriceToNumber(booking.price);
+      const price = booking.price;
+
       const bookingData: BookingProps = {
-        guests: guest as any,
+        guests: (guest as string) || "Jhon Doe",
         hotelId: booking.hotelId,
         roomId: booking.booking.roomId,
         userId: 1,
@@ -58,7 +56,10 @@ export default async function BookingCheckoutCard() {
               </h1>
             </div>
             <span className="text-xl font-normal md:items-end flex flex-col text-gray-500">
-              Total <p className="font-normal text-black">{booking.price}</p>
+              Total{" "}
+              <p className="font-normal text-black">
+                {BookingService.priceFormatter().format(booking.price)}
+              </p>
             </span>
           </div>
 

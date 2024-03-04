@@ -8,7 +8,7 @@ export class BookingService {
       dayjs(checkoutDate).toDate()
     );
     const amount = dayPrice * totalDays;
-    return this.priceFormatter().format(amount);
+    return amount;
   }
 
   static priceFormatter() {

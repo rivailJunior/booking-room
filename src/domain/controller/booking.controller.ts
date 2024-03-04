@@ -8,14 +8,12 @@ import { DateTime } from "../service/dateTime.ds";
 export class BookingController {
   constructor() {}
   async create(data: BookingProps): Promise<BookingEntity | null> {
-    console.log("data", data);
     const bookingDao = new BookingDao();
     const bookingRoom = await bookingDao.findRoomBooking(
       data.roomId,
       data.hotelId
     );
 
-    console.log("bookingRoom", bookingRoom);
     if (bookingRoom.length) {
       const hasBookingOnThisPeriod = bookingRoom?.every((booking: any) => {
         if (
@@ -45,7 +43,7 @@ export class BookingController {
 
   async update(data: BookingEntity) {
     const bookingDao = new BookingDao();
-    return await bookingDao.update(data, data.id);
+    return await bookingDao.update(data, data.id as number);
   }
 
   async delete(bookingId: number) {

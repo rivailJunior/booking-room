@@ -37,7 +37,7 @@ export default function useFilterHotelRooms(hotelRooms: HotelRoomEntity[]) {
       booking?.checkinDate && DateTime.isValid(booking?.checkoutDate as Date);
 
     if (card && !isValidCheckin && !isValidCheckout) {
-      return BookingService.priceFormatter().format(card?.dayPrice);
+      return card?.dayPrice;
     }
 
     if (isValidCheckin && isValidCheckout) {
