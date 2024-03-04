@@ -36,7 +36,7 @@ export default function RootLayout({
         >
           <ThemeButton />
           <Navbar />
-          <main className="flex min-h-screen container dark:bg-slate-900 flex-col mt-10 mb-20">
+          <main className="flex min-h-screen container flex-col mt-10 mb-20 text-black">
             {children}
           </main>
         </ThemeProvider>

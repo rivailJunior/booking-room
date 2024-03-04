@@ -9,11 +9,10 @@ export async function POST(req: Request) {
 
 const createBookingCookie = (formData: any) => {
   const cookieStore = cookies();
-
   const booking = {
     booking: formData.booking,
     roomDescription: formData.card.description,
-    picture: formData.pictures,
+    picture: formData.card.pictures,
     price: formData.totalPrice,
     hotel: formData.card.hotel.name,
     hotelId: formData.card.hotel.id,
@@ -26,6 +25,6 @@ const createBookingCookie = (formData: any) => {
   cookieStore.set({
     name: "booking",
     value: JSON.stringify(booking),
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 3600,
   });
 };
