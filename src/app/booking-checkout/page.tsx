@@ -47,11 +47,6 @@ export default async function BookingCheckoutCard() {
     }
   };
 
-  const cancelBooking = async () => {
-    "use server";
-    console.log("cancel booking");
-  };
-
   return (
     <form action={createBooking}>
       <div className="flex flex-col gap-4 w-full md:w-3/4 mx-auto">
@@ -120,7 +115,6 @@ export default async function BookingCheckoutCard() {
                 value="cancel"
                 name="button"
                 className="px-8 py-3 bg-red-500 text-white rounded shadow"
-                onClick={cancelBooking}
               >
                 Cancel
               </button>
