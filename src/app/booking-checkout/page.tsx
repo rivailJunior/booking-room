@@ -1,8 +1,9 @@
 import { BookingController } from "@/domain/controller/booking.controller";
-import { BookingEntity, BookingProps } from "@/domain/entity/Booking.entity";
+import { BookingProps } from "@/domain/entity/Booking.entity";
 import { DateTime } from "@/domain/service/dateTime.ds";
-import { cookies } from "next/headers";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 const getBooking = () => {
   const cookieStore = cookies();
@@ -10,22 +11,45 @@ const getBooking = () => {
   return JSON.parse(booking?.value as string);
 };
 
+const deleteBooking = () => {
+  const cookieStore = cookies();
+  cookieStore.delete("booking");
+};
+
+const stringPriceToNumber = (price: string) => {
+  return Number(price.replace(/\D/g, ""));
+};
+
 export default async function BookingCheckoutCard() {
   const booking = await getBooking();
+
   const createBooking = async (formData: FormData) => {
     "use server";
-    const guest = formData.get("guests");
-    const bookingData: BookingProps = {
-      guests: guest as any,
-      hotelId: booking.hotelId,
-      roomId: booking.booking.roomId,
-      userId: 1,
-      checkinDate: booking.booking.checkinDate,
-      checkoutDate: booking.booking.checkoutDate,
-      price: booking.price,
-    };
-    const bookingController = new BookingController();
-    const response = await bookingController.create(bookingData);
+    const action = formData.get("button");
+    if (action === "cancel") {
+      await deleteBooking();
+      redirect("/");
+    } else {
+      const guest = formData.get("guests");
+      const price = stringPriceToNumber(booking.price);
+      const bookingData: BookingProps = {
+        guests: guest as any,
+        hotelId: booking.hotelId,
+        roomId: booking.booking.roomId,
+        userId: 1,
+        checkinDate: booking.booking.checkinDate,
+        checkoutDate: booking.booking.checkoutDate,
+        price,
+      };
+      const bookingController = new BookingController();
+      await bookingController.create(bookingData);
+      redirect("/bookings");
+    }
+  };
+
+  const cancelBooking = async () => {
+    "use server";
+    console.log("cancel booking");
   };
 
   return (
@@ -92,12 +116,17 @@ export default async function BookingCheckoutCard() {
             </div>
             <div className="flex flex-row gap-2 justify-end">
               <button
-                type="button"
+                type="submit"
+                value="cancel"
+                name="button"
                 className="px-8 py-3 bg-red-500 text-white rounded shadow"
+                onClick={cancelBooking}
               >
                 Cancel
               </button>
               <button
+                name="button"
+                value="confirm"
                 type="submit"
                 className="px-8 py-3 bg-blue-500 text-white rounded shadow"
               >

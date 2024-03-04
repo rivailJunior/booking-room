@@ -33,6 +33,7 @@ function Content({ hotelRooms }: HomePageContentProps) {
       body: JSON.stringify(bookingValues),
     });
     router.push("/booking-checkout");
+    router.refresh();
   };
 
   return (
