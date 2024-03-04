@@ -3,7 +3,7 @@ import "./globals.css";
 import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
-import { ThemeProvider, ThemeButton } from "@/components";
+import { ThemeProvider, ThemeButton, Navbar } from "@/components";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -35,7 +35,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ThemeButton />
-          <main className="flex min-h-screen container dark:bg-slate-900 flex-col">
+          <Navbar />
+          <main className="flex min-h-screen container dark:bg-slate-900 flex-col mt-10 mb-20">
             {children}
           </main>
         </ThemeProvider>

@@ -1,4 +1,3 @@
-import { Heading } from "@/components";
 import { HomePageContent } from "./home-page-content";
 
 async function getRooms() {
@@ -10,7 +9,6 @@ export default async function Home() {
   const hotelRooms = await getRooms();
   return (
     <>
-      <Heading />
       <HomePageContent hotelRooms={hotelRooms.data} />
     </>
   );

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProps, formSchema, formType } from "@/type/search-form";
 import useSearchForm from "@/hook/useSearchForm";
 
-export function Form({ onHandleSubmit }: FormProps) {
+export function Form({ onHandleSubmit, btnDisabled }: FormProps) {
   const {
     register,
     handleSubmit,
@@ -47,9 +47,13 @@ export function Form({ onHandleSubmit }: FormProps) {
           <div>
             <button
               type="submit"
-              className="bg-blue-500 py-2.5 rounded-lg px-5 text-white"
+              disabled={btnDisabled}
+              className={
+                "py-2.5 rounded-lg px-5 text-white " +
+                (btnDisabled ? "bg-blue-200" : "bg-blue-500")
+              }
             >
-              Proceed
+              Continue
             </button>
           </div>
         </div>

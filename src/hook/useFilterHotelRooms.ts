@@ -50,11 +50,23 @@ export default function useFilterHotelRooms(hotelRooms: HotelRoomEntity[]) {
     return 0;
   }, [booking, card]);
 
+  const isBtnDisabled = () => {
+    return (
+      !place ||
+      !booking?.roomId ||
+      !DateTime.isValid(booking?.checkinDate as Date) ||
+      !DateTime.isValid(booking?.checkoutDate as Date) ||
+      !booking?.checkinDate ||
+      !booking?.checkoutDate
+    );
+  };
+
   return {
     filterHotelRooms,
     handleCardClick,
     booking,
     totalPrice,
     card,
+    isBtnDisabled: isBtnDisabled(),
   };
 }

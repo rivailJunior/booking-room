@@ -15,6 +15,7 @@ type formType = z.infer<typeof formSchema>;
 
 type FormProps = {
   onHandleSubmit: (value: formType) => void;
+  btnDisabled: boolean;
 };
 
 export { formSchema };

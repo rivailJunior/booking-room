@@ -12,8 +12,14 @@ type HomePageContentProps = {
 function Content({ hotelRooms }: HomePageContentProps) {
   const router = useRouter();
 
-  const { filterHotelRooms, handleCardClick, booking, totalPrice, card } =
-    useFilterHotelRooms(hotelRooms);
+  const {
+    filterHotelRooms,
+    handleCardClick,
+    booking,
+    totalPrice,
+    card,
+    isBtnDisabled,
+  } = useFilterHotelRooms(hotelRooms);
   const onHandleSubmitForm = async () => {
     if (!booking?.roomId) return; //TODO: call an error here (modal)
 
@@ -36,7 +42,7 @@ function Content({ hotelRooms }: HomePageContentProps) {
           <span className="text-black mr-2">Total:</span> {totalPrice}
         </div>
       ) : null}
-      <Form onHandleSubmit={onHandleSubmitForm} />
+      <Form onHandleSubmit={onHandleSubmitForm} btnDisabled={isBtnDisabled} />
       <GridCards cards={filterHotelRooms()} handleCardClick={handleCardClick} />
     </>
   );
