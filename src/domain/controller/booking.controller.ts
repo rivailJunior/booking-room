@@ -31,7 +31,6 @@ export class BookingController {
           return booking;
         }
       });
-      console.log("has booking on this period", hasBookingOnThisPeriod);
       if (hasBookingOnThisPeriod) {
         throw new Error("Room is not available on this period");
       }
