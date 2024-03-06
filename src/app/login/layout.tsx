@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
 import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
-import { ThemeProvider, ThemeButton, Navbar } from "@/components";
-import { getLoginCookie } from "./login/service/login";
+import { ThemeProvider, ThemeButton } from "@/components";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -21,7 +20,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = getLoginCookie();
   return (
     <html lang="en">
       <body
@@ -37,8 +35,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ThemeButton />
-          <Navbar user={user} />
-          <main className="flex min-h-screen container flex-col mt-10 mb-20 text-black">
+          <main className="flex min-h-screen container flex-col  justify-center text-black">
             {children}
           </main>
         </ThemeProvider>

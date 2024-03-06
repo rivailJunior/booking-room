@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Navbar } from "flowbite-react";
 import React from "react";
 
-export function Nav() {
+export function Nav({ user }: { user?: any }) {
   return (
     <Navbar
       fluid={true}
@@ -19,7 +19,13 @@ export function Nav() {
       <Navbar.Toggle />
       <Navbar.Collapse>
         <Link href="/bookings">My Bookings</Link>
-        <Link href="/login">Login</Link>
+        {!user ? (
+          <Link href="/login">Login</Link>
+        ) : (
+          <span className="text-white dark:text-blue-400 mr-5">
+            {user.name}
+          </span>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );
