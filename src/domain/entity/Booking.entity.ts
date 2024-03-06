@@ -1,3 +1,5 @@
+import { Decimal } from "@prisma/client/runtime/library";
+
 export interface BookingEntity {
   hotelId: number;
   roomId: number;
@@ -10,6 +12,7 @@ export interface BookingEntity {
   updatedAt?: Date | null;
   hasCheckingStarted?: boolean;
   hasCheckoutComplete?: boolean;
+  price: Decimal | string;
 }
 
 export type BookingProps = {

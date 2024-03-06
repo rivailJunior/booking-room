@@ -36,8 +36,7 @@ export class BookingController {
       }
     }
 
-    const response = await bookingDao.create(data);
-    return response;
+    return await bookingDao.create(data);
   }
 
   async update(data: BookingEntity) {
