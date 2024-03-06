@@ -51,7 +51,16 @@ export class BookingController {
   }
   async getAll(userId: number) {
     const bookingDao = new BookingDao();
-    return await bookingDao.findMyBooking(userId);
+    const bookings = await bookingDao.findMyBooking(userId);
+    if (bookings.length) {
+      return bookings.map((booking) => {
+        return {
+          ...booking,
+          price: booking.price.toString(),
+        };
+      });
+    }
+    return bookings;
   }
 
   async getLast(userId: number) {
