@@ -1,11 +1,9 @@
 import { redirect } from "next/navigation";
 import { getLoginCookie, handleDoLogin } from "./service/login";
-import { revalidatePath } from "next/cache";
 
 export default async function LoginPage() {
   const user = await getLoginCookie();
   if (user) {
-    revalidatePath("/");
     redirect("/");
   }
   return (

@@ -1,5 +1,6 @@
 "use server";
 
+import { getLoginCookie } from "@/app/login/service/login";
 import { BookingController } from "@/domain/controller/booking.controller";
 import { BookingProps } from "@/domain/entity/Booking.entity";
 import { revalidatePath } from "next/cache";
@@ -28,14 +29,15 @@ const cancelAction = async () => {
 
 const createAction = async (booking: any, formData: FormData) => {
   try {
+    const user = getLoginCookie();
     const guest = formData.get("guests");
     const price = booking.price;
 
     const bookingData: BookingProps = {
-      guests: (guest as string) || "Jhon Doe",
+      guests: `${user.name}, ${guest}`,
       hotelId: booking.hotelId,
       roomId: booking.booking.roomId,
-      userId: 1,
+      userId: user.id,
       checkinDate: booking.booking.checkinDate,
       checkoutDate: booking.booking.checkoutDate,
       price,
