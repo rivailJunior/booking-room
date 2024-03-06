@@ -1,8 +1,8 @@
 "use server";
 
 import { UserController } from "@/domain/controller/user.controller";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 const userController = new UserController();
 
 const setUserCookie = (user: any) => {
@@ -30,6 +30,10 @@ export const handleDoLogin = async (formData: FormData) => {
   const user = await userController.login(email as string, password as string);
   if (user) {
     setUserCookie(user);
-    redirect("/");
+    revalidatePath("/");
+    revalidatePath("/booking-checkout");
+    return {
+      success: true,
+    };
   }
 };

@@ -7,3 +7,4 @@ export { BookingDatePicker } from "./booking-date-picker";
 export { Nav as Navbar } from "./navbar";
 export { BookingTable } from "./booking-table";
 export { ModalDelete } from "./modal-delete";
+export { LoginForm } from "./login-form";

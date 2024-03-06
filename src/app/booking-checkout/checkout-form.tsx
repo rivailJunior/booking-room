@@ -3,15 +3,24 @@
 import { BookingService } from "@/domain/service/booking.ds";
 import { DateTime } from "@/domain/service/dateTime.ds";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { formSubmitAction } from "./service/create-booking";
+import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Link from "next/link";
+import { Modal } from "flowbite-react";
+import { LoginForm } from "@/components";
 
-export default function CheckoutForm({ booking }: any) {
+export default function CheckoutForm({
+  booking,
+  user,
+}: {
+  booking: any;
+  user: any;
+}) {
   const [state, formAction] = useFormState(formSubmitAction, booking);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (state?.success) {
@@ -31,6 +40,23 @@ export default function CheckoutForm({ booking }: any) {
   return (
     <form action={formAction}>
       <ToastContainer />
+      {!user?.name && (
+        <div className="text-red-500 p-5 w-full justify-center items-center flex">
+          <a href="#" onClick={() => setOpenModal(true)}>
+            Please, do login to continue!
+          </a>
+        </div>
+      )}
+      <Modal
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+        size="md"
+        className="bg-gray-100"
+      >
+        <Modal.Body>
+          <LoginForm onHandleCancel={() => setOpenModal(false)} />
+        </Modal.Body>
+      </Modal>
       <div className="flex flex-col gap-4 w-full md:w-3/4 mx-auto">
         <div className="bg-gray-50 rounded-lg shadow-lg p-8">
           <div className="flex flex-col md:flex-row ">
@@ -115,13 +141,15 @@ export default function CheckoutForm({ booking }: any) {
                 </Link>
               )}
               <button
-                disabled={state?.success}
+                disabled={!user?.name || state?.success}
                 name="button"
                 value="confirm"
                 type="submit"
                 className={
                   "px-8 py-3  text-white rounded shadow " +
-                  (state?.success ? "bg-blue-100" : "bg-blue-500")
+                  (!user?.name || state?.success
+                    ? "bg-blue-100"
+                    : "bg-blue-500")
                 }
               >
                 Confirm
