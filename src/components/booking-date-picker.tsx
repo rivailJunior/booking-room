@@ -4,12 +4,19 @@ import Datepicker from "react-tailwindcss-datepicker";
 
 type BookingDatePickerProps = {
   onHandleChange: (value: any) => void;
+  startDate?: Date;
+  endDate?: Date;
 };
 
-const BookingDatePicker = ({ onHandleChange }: BookingDatePickerProps) => {
+const BookingDatePicker = ({
+  onHandleChange,
+  startDate,
+  endDate,
+}: BookingDatePickerProps) => {
+  console.log({ startDate, endDate });
   const [value, setValue] = useState({
-    startDate: null,
-    endDate: null,
+    startDate,
+    endDate,
   });
 
   const handleValueChange = (newValue: any) => {

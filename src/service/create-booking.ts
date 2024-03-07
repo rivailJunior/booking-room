@@ -1,6 +1,6 @@
 "use server";
 
-import { getLoginCookie } from "@/app/login/service/login";
+import { getLoginCookie } from "@/service/login";
 import { BookingController } from "@/domain/controller/booking.controller";
 import { BookingProps } from "@/domain/entity/Booking.entity";
 import { revalidatePath } from "next/cache";

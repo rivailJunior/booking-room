@@ -1,8 +1,7 @@
 "use client";
-import Link from "next/link";
-
-import { Navbar } from "flowbite-react";
 import React from "react";
+import Link from "next/link";
+import { Navbar } from "flowbite-react";
 
 export function Nav({ user }: { user?: any }) {
   return (
@@ -18,7 +17,7 @@ export function Nav({ user }: { user?: any }) {
       </Link>
       <Navbar.Toggle />
       <Navbar.Collapse>
-        <Link href="/bookings">My Bookings</Link>
+        {user?.name && <Link href="/bookings">My Bookings</Link>}
         {!user ? (
           <Link href="/login">Login</Link>
         ) : (

@@ -37,7 +37,9 @@ export function Form({ onHandleSubmit, btnDisabled }: FormProps) {
             <input
               type="text"
               id="country"
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
+              placeholder="Brazil, Argentina, etc."
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 dark:bg-gray-800 dark:text-white"
+              autoFocus
               {...register("country")}
             />
           </InputWrapper>
@@ -62,7 +64,7 @@ export function Form({ onHandleSubmit, btnDisabled }: FormProps) {
   );
 }
 
-function InputWrapper({
+export function InputWrapper({
   children,
   label,
   error,

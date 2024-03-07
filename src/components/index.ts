@@ -1,5 +1,5 @@
 export { Heading } from "./heading";
-export { ThemeProvider } from "./theme-provider";
+export { ThemeProvider } from "../provider/theme-provider";
 export { ThemeButton } from "./theme-button";
 export { Form } from "./form";
 export { GridCards } from "./grid-cards";
@@ -8,3 +8,5 @@ export { Nav as Navbar } from "./navbar";
 export { BookingTable } from "./booking-table";
 export { ModalDelete } from "./modal-delete";
 export { LoginForm } from "./login-form";
+export { CheckoutForm } from "./checkout-form";
+export { EditForm } from "./edit-form";

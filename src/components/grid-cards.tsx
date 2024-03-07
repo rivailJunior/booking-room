@@ -1,5 +1,4 @@
 "use client";
-
 import { HotelRoomEntity } from "@/domain/entity/HotelRoom.entity";
 import Image from "next/image";
 import { useState } from "react";
@@ -16,13 +15,15 @@ type GridCardsProps = {
 export function GridCards({ cards, handleCardClick }: GridCardsProps) {
   const [cardId, setCardId] = useState(0);
   return (
-    <div className="md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div className="grid md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {cards?.map((card, index) => (
         <div
           key={index}
           className={
             "p-4 bg-gray-100 rounded-lg shadow-sm" +
-            (cardId === card.id ? " border-2 border-blue-500" : "")
+            (cardId === card.id
+              ? " border-2 border-blue-500 dark:border-cyan-500"
+              : "")
           }
           onClick={() => {
             setCardId(card.id);

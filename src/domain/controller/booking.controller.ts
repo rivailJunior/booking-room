@@ -66,4 +66,19 @@ export class BookingController {
     const bookingDao = new BookingDao();
     return await bookingDao.getLastBooking(userId);
   }
+
+  async getById(bookingId: number) {
+    const bookingDao = new BookingDao();
+    const response = await bookingDao.findBookingById(bookingId);
+    const booking = {
+      ...response,
+      hotelRoom: {
+        ...response?.hotelRoom,
+        dayPrice: response?.hotelRoom?.dayPrice.toString(),
+      },
+      price: response?.price.toString(),
+    };
+
+    return booking;
+  }
 }

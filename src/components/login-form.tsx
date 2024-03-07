@@ -1,5 +1,5 @@
 "use client";
-import { handleDoLogin } from "@/app/login/service/login";
+import { handleDoLogin } from "@/service/login";
 import React from "react";
 
 export function LoginForm({ onHandleCancel }: { onHandleCancel?: () => void }) {

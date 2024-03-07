@@ -63,4 +63,17 @@ export class BookingDao implements IBookingDao {
       },
     });
   }
+
+  async findBookingById(bookingId: number) {
+    return await connection.booking.findUnique({
+      where: {
+        id: bookingId,
+      },
+      include: {
+        hotelRoom: true,
+        hotel: true,
+        user: true,
+      },
+    });
+  }
 }

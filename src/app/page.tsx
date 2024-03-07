@@ -7,9 +7,5 @@ async function getRooms() {
 
 export default async function Home() {
   const hotelRooms = await getRooms();
-  return (
-    <>
-      <HomePageContent hotelRooms={hotelRooms.data} />
-    </>
-  );
+  return <HomePageContent hotelRooms={hotelRooms.data} />;
 }

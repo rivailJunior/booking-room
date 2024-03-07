@@ -5,20 +5,14 @@ import { DateTime } from "@/domain/service/dateTime.ds";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import { formSubmitAction } from "./service/create-booking";
+import { formSubmitAction } from "../service/create-booking";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Modal } from "flowbite-react";
 import { LoginForm } from "@/components";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function CheckoutForm({
-  booking,
-  user,
-}: {
-  booking: any;
-  user: any;
-}) {
+export function CheckoutForm({ booking, user }: { booking: any; user: any }) {
   const [state, formAction] = useFormState(formSubmitAction, booking);
   const [openModal, setOpenModal] = useState(false);
 
@@ -117,7 +111,9 @@ export default function CheckoutForm({
               <input
                 type="text"
                 name="guests"
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 dark:bg-gray-800 dark:text-white"
+                placeholder="Jhon, Maria, Sarah, etc."
+                value={user?.name}
               />
             </div>
             <div className="flex flex-row gap-2 justify-end">

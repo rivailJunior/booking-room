@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getLoginCookie } from "./service/login";
+import { getLoginCookie } from "../../service/login";
 import { LoginForm } from "@/components";
 
 export default async function LoginPage() {

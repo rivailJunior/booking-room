@@ -1,6 +1,6 @@
-import { getBookingCookie } from "./service/create-booking";
-import CheckoutForm from "./checkout-form";
-import { getLoginCookie } from "../login/service/login";
+import { CheckoutForm } from "@/components";
+import { getBookingCookie } from "../../service/create-booking";
+import { getLoginCookie } from "../../service/login";
 
 export default async function BookingCheckoutCard() {
   const booking = await getBookingCookie();

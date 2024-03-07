@@ -4,7 +4,7 @@ import { BookingService } from "@/domain/service/booking.ds";
 import { DateTime } from "@/domain/service/dateTime.ds";
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import { deleteSubmitAction } from "../app/bookings/service/delete-booking";
+import { deleteSubmitAction } from "../service/delete-booking";
 import { BookingEntity } from "@/domain/entity/Booking.entity";
 import { ModalDelete } from ".";
 
