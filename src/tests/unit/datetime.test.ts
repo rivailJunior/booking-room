@@ -77,13 +77,13 @@ describe("DateTime", () => {
         dayPrice: new Prisma.Decimal(100),
       });
       const hotelRoom = await connection.hotelRoom.findFirst();
-      // const calc = (hotelRoom?.dayPrice as any) * totalDays;
+
       const calc = BookingService.calculate(
         dayjs(checkinDate).toDate(),
         dayjs(checkoutDate).toDate(),
         hotelRoom?.dayPrice as any
       );
-      expect(calc).toBe(BookingService.priceFormatter().format(amount));
+      expect(calc).toBe(amount);
     }
   );
 

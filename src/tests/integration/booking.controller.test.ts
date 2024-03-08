@@ -1,5 +1,6 @@
 import { BookingController } from "@/domain/controller/booking.controller";
 import { BookingEntity } from "@/domain/entity/Booking.entity";
+import { Decimal } from "@prisma/client/runtime/library";
 import dayjs from "dayjs";
 import { describe, test, expect, vi } from "vitest";
 
@@ -15,6 +16,7 @@ const bookingCreateValues: BookingEntity = {
   checkoutDate: dayjs("2024-05-10").toDate(),
   createdAt: dayjs().toDate(),
   updatedAt: null,
+  price: new Decimal(100),
 };
 
 const bookingUpdatedValues: BookingEntity = {
@@ -45,6 +47,7 @@ vi.mock("../../domain/model/booking/booking.dao", () => {
         getLastBooking: vi.fn().mockResolvedValue(bookingCreateValues),
         update: vi.fn().mockResolvedValue(bookingUpdatedValues),
         findRoomBooking: vi.fn().mockResolvedValue([bookingInvalidPeriods]),
+        getBookingDataById: vi.fn().mockResolvedValue(bookingFindValues),
       };
     }),
   };
@@ -60,6 +63,7 @@ describe("Booking Controller", () => {
       guests: "Jones, Maria",
       checkinDate: dayjs("2025-05-05").toDate(),
       checkoutDate: dayjs("2025-05-10").toDate(),
+      price: 100,
     });
     expect(response).toBeTruthy();
     expect(response).toStrictEqual(bookingCreateValues);
@@ -74,7 +78,9 @@ describe("Booking Controller", () => {
 
   test("should delete a booking", async () => {
     const bookingController = new BookingController();
-    const response = await bookingController.delete(bookingCreateValues.id);
+    const response = await bookingController.delete(
+      Number(bookingCreateValues?.id)
+    );
     expect(response).toBeTruthy();
     expect(response).toStrictEqual(bookingCreateValues);
   });
@@ -83,7 +89,8 @@ describe("Booking Controller", () => {
     const bookingController = new BookingController();
     const response = await bookingController.getAll(1);
     expect(response).toBeTruthy();
-    expect(response).toStrictEqual([bookingCreateValues]);
+    expect(response.length).toBe(1);
+    expect(response).toStrictEqual([{ ...bookingCreateValues, price: "100" }]);
   });
 
   test("should get last booking", async () => {
@@ -112,6 +119,7 @@ describe("Booking Controller", () => {
           guests: "Jones, Maria",
           checkinDate: dayjs("2024-05-05").toDate(),
           checkoutDate: dayjs("2024-05-10").toDate(),
+          price: 100,
         })
       ).rejects.toThrowError("Room is not available on this period");
     }
