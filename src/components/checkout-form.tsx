@@ -1,5 +1,4 @@
 "use client";
-
 import { BookingService } from "@/domain/service/booking.ds";
 import { DateTime } from "@/domain/service/dateTime.ds";
 import Image from "next/image";
@@ -111,7 +110,7 @@ export function CheckoutForm({ booking, user }: { booking: any; user: any }) {
               <input
                 type="text"
                 name="guests"
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 dark:bg-gray-800 dark:text-white"
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 dark:bg-gray-800 dark:text-white capitalize"
                 placeholder="Jhon, Maria, Sarah, etc."
                 value={user?.name}
               />

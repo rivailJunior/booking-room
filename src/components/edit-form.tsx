@@ -5,6 +5,7 @@ import { BookingService } from "@/domain/service/booking.ds";
 import { DateTime } from "@/domain/service/dateTime.ds";
 import { updateBookingAction } from "@/service/edit-booking";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,7 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 export function EditForm({ booking }: { booking: any }) {
   const [state, formAction] = useFormState(updateBookingAction, booking);
-  console.log("state", state);
   const [price, setPrice] = useState(booking.price);
   const checkin = DateTime.formatDate(booking?.checkinDate);
   const checkout = DateTime.formatDate(booking?.checkoutDate);
@@ -93,7 +93,7 @@ export function EditForm({ booking }: { booking: any }) {
             <InputWrapper label="Guests" error={""}>
               <input
                 type="text"
-                className="form-input mt-1 block w-full rounded-md"
+                className="border-gray-300 form-input mt-1 block w-full rounded-md capitalize text-gray-500 dark:bg-gray-800 dark:text-white"
                 placeholder="Guests"
                 value={booking?.guests}
                 name="guests"
@@ -101,12 +101,13 @@ export function EditForm({ booking }: { booking: any }) {
             </InputWrapper>
           </div>
           <div className="flex flex-col md:flex-row justify-end gap-4">
-            <button
+            <Link
+              href={"/bookings"}
               type="button"
               className="bg-red-500 hover:bg-red-400 text-white font-normal py-2.5 rounded-lg px-5 mt-4"
             >
               Cancel
-            </button>
+            </Link>
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-400 text-white font-normal py-2.5 rounded-lg px-5 mt-4"

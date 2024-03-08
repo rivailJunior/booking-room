@@ -27,6 +27,7 @@ const BookingDatePicker = ({
 
   return (
     <Datepicker
+      // containerClassName="border-gray-300 "
       placeholder="Select the dates"
       startFrom={new Date()}
       disabledDates={

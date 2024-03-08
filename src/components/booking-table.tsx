@@ -68,7 +68,7 @@ export function BookingTable({ bookings }: { bookings: BookingEntity[] }) {
                   >
                     {booking.id}
                   </th>
-                  <td className="px-6 py-4">{booking.guests}</td>
+                  <td className="px-6 py-4 capitalize">{booking.guests}</td>
                   <td className="px-6 py-4">
                     {DateTime.formatDateHumanized(booking?.checkinDate)}
                   </td>
