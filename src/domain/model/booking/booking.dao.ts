@@ -37,7 +37,7 @@ export class BookingDao implements IBookingDao {
     return last[last.length - 1];
   }
 
-  async update(data: BookingEntity, bookingId: number) {
+  async update(data: Partial<BookingEntity>, bookingId: number) {
     await DateTime.extractNumberOfDays(
       data.checkinDate as Date,
       data.checkoutDate as Date
@@ -73,6 +73,22 @@ export class BookingDao implements IBookingDao {
         hotelRoom: true,
         hotel: true,
         user: true,
+      },
+    });
+  }
+
+  async findRoomBookings(roomId: number) {
+    return await connection.booking.findMany({
+      where: {
+        roomId: roomId,
+      },
+    });
+  }
+
+  async getBookingDataById(bookingId: number) {
+    return await connection.booking.findUnique({
+      where: {
+        id: bookingId,
       },
     });
   }

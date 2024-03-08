@@ -39,15 +39,23 @@ export class BookingController {
     return await bookingDao.create(data);
   }
 
-  async update(data: BookingEntity) {
+  async update(data: Partial<BookingEntity>) {
     const bookingDao = new BookingDao();
-    return await bookingDao.update(data, data.id as number);
+    const booking = await bookingDao.getBookingDataById(data.id as number);
+    const id = data.id;
+    if (booking) {
+      // @ts-ignore
+      delete booking.id;
+      delete data.id;
+    }
+    return await bookingDao.update({ ...booking, ...data }, id as number);
   }
 
   async delete(bookingId: number) {
     const bookingDao = new BookingDao();
     return await bookingDao.delete(bookingId);
   }
+
   async getAll(userId: number) {
     const bookingDao = new BookingDao();
     const bookings = await bookingDao.findMyBooking(userId);
@@ -70,6 +78,17 @@ export class BookingController {
   async getById(bookingId: number) {
     const bookingDao = new BookingDao();
     const response = await bookingDao.findBookingById(bookingId);
+    const roomBookings = await bookingDao.findRoomBookings(
+      response?.roomId as number
+    );
+
+    const invalidDates = roomBookings?.map((room) => {
+      return {
+        startDate: DateTime.formatDateHumanized(room.checkinDate),
+        endDate: DateTime.formatDateHumanized(room.checkoutDate),
+      };
+    });
+
     const booking = {
       ...response,
       hotelRoom: {
@@ -77,6 +96,7 @@ export class BookingController {
         dayPrice: response?.hotelRoom?.dayPrice.toString(),
       },
       price: response?.price.toString(),
+      invalidDates,
     };
 
     return booking;

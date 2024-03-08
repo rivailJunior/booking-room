@@ -7,6 +7,7 @@ import { useFormState } from "react-dom";
 import { deleteSubmitAction } from "../service/delete-booking";
 import { BookingEntity } from "@/domain/entity/Booking.entity";
 import { ModalDelete } from ".";
+import Link from "next/link";
 
 const initialState = {
   success: false,
@@ -48,7 +49,7 @@ export function BookingTable({ bookings }: { bookings: BookingEntity[] }) {
               <th scope="col" className="px-6 py-3">
                 Price
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 flex justify-center">
                 Action
               </th>
             </tr>
@@ -79,14 +80,20 @@ export function BookingTable({ bookings }: { bookings: BookingEntity[] }) {
                       booking?.price as any
                     )}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 flex gap-4">
                     <button
                       type="button"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                      className="font-medium text-red-600 dark:text-red-500 hover:underline"
                       onClick={() => setItem(booking)}
                     >
                       Cancel Booking
                     </button>
+                    <Link
+                      href={`/manage-booking/${booking.id}`}
+                      className="text-blue-500"
+                    >
+                      Manage Booking
+                    </Link>
                   </td>
                 </tr>
               );

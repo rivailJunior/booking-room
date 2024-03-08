@@ -1,19 +1,20 @@
 "use client";
 import React, { useState } from "react";
-import Datepicker from "react-tailwindcss-datepicker";
+import Datepicker, { DateRangeType } from "react-tailwindcss-datepicker";
 
 type BookingDatePickerProps = {
-  onHandleChange: (value: any) => void;
+  readonly onHandleChange: (value: any) => void;
   startDate?: Date;
   endDate?: Date;
+  disabledDates?: DateRangeType[];
 };
 
 const BookingDatePicker = ({
   onHandleChange,
   startDate,
   endDate,
+  disabledDates,
 }: BookingDatePickerProps) => {
-  console.log({ startDate, endDate });
   const [value, setValue] = useState({
     startDate,
     endDate,
@@ -28,14 +29,17 @@ const BookingDatePicker = ({
     <Datepicker
       placeholder="Select the dates"
       startFrom={new Date()}
-      disabledDates={[
-        {
-          startDate: "2000-01-01",
-          endDate: new Date(),
-        },
-      ]}
+      disabledDates={
+        disabledDates || [
+          {
+            startDate: "2000-01-01",
+            endDate: new Date(),
+          },
+        ]
+      }
       value={value}
       onChange={handleValueChange}
+      inputName="bookingDates"
     />
   );
 };
