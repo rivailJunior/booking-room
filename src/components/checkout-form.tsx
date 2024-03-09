@@ -7,13 +7,10 @@ import { useFormState } from "react-dom";
 import { formSubmitAction } from "../service/create-booking";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
-import { Modal } from "flowbite-react";
-import { LoginForm } from "@/components";
 import "react-toastify/dist/ReactToastify.css";
 
 export function CheckoutForm({ booking, user }: { booking: any; user: any }) {
   const [state, formAction] = useFormState(formSubmitAction, booking);
-  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (state?.success) {
@@ -35,21 +32,10 @@ export function CheckoutForm({ booking, user }: { booking: any; user: any }) {
       <ToastContainer />
       {!user?.name && (
         <div className="text-red-500 p-5 w-full justify-center items-center flex">
-          <a href="#" onClick={() => setOpenModal(true)}>
-            Please, do login to continue!
-          </a>
+          Please, do login to continue!
         </div>
       )}
-      <Modal
-        show={openModal}
-        onClose={() => setOpenModal(false)}
-        size="md"
-        className="bg-gray-100"
-      >
-        <Modal.Body>
-          <LoginForm onHandleCancel={() => setOpenModal(false)} />
-        </Modal.Body>
-      </Modal>
+
       <div className="flex flex-col gap-4 w-full md:w-3/4 mx-auto">
         <div className="bg-gray-50 rounded-lg shadow-lg p-8">
           <div className="flex flex-col md:flex-row ">
@@ -108,11 +94,11 @@ export function CheckoutForm({ booking, user }: { booking: any; user: any }) {
             <div className="flex flex-col gap-2">
               <p className="font-normal text-gray-500">Guest (optional)</p>
               <input
+                id="guests"
                 type="text"
                 name="guests"
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 dark:bg-gray-800 dark:text-white capitalize"
                 placeholder="Jhon, Maria, Sarah, etc."
-                value={user?.name}
               />
             </div>
             <div className="flex flex-row gap-2 justify-end">

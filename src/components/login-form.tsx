@@ -17,7 +17,7 @@ export function LoginForm({ onHandleCancel }: { onHandleCancel?: () => void }) {
           id="email"
           type="text"
           placeholder="your@email.com"
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500"
+          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 dark:text-black"
         />
       </div>
       <div className="mb-6">
@@ -37,6 +37,7 @@ export function LoginForm({ onHandleCancel }: { onHandleCancel?: () => void }) {
       </div>
       <div className="flex gap-2 flex-col">
         <button
+          id="login"
           type="submit"
           className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
@@ -48,7 +49,7 @@ export function LoginForm({ onHandleCancel }: { onHandleCancel?: () => void }) {
             onClick={onHandleCancel}
             className="w-full px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-400 focus:outline-none focus:ring-1 focus:ring-red-500"
           >
-            Cancel
+            Close
           </button>
         )}
       </div>

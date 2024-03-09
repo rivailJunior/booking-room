@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export function EditForm({ booking }: { booking: any }) {
+  const [guests, setGuests] = useState(booking.guests);
   const [state, formAction] = useFormState(updateBookingAction, booking);
   const [price, setPrice] = useState(booking.price);
   const checkin = DateTime.formatDate(booking?.checkinDate);
@@ -95,8 +96,10 @@ export function EditForm({ booking }: { booking: any }) {
                 type="text"
                 className="border-gray-300 form-input mt-1 block w-full rounded-md capitalize text-gray-500 dark:bg-gray-800 dark:text-white"
                 placeholder="Guests"
-                value={booking?.guests}
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
                 name="guests"
+                id="guests"
               />
             </InputWrapper>
           </div>
