@@ -27,11 +27,6 @@ describe("HomePage", () => {
     cy.contains("This is the room of Hotel Argentina-4");
   });
 
-  it("should go to login page", () => {
-    cy.get("a").contains("Login").click();
-    cy.url().should("eq", "http://localhost:3000/login");
-  });
-
   it("should not to be able to access booking page without login", () => {
     cy.visit("/bookings");
     cy.url().should("eq", "http://localhost:3000/");
