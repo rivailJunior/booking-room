@@ -21,10 +21,18 @@
 
 ```bash
 # install
+# node 18
 npm run install
 
 # create .env file based on .env.example file
 touch .env
+
+# run dev
+npm run dev
+
+# localhost:3000
+
+# IF these commands do not work. 
 
 # prisma
 npx prisma generate
@@ -32,11 +40,6 @@ npx prisma generate
 npx prisma migrate dev --name init
 
 npm prisma seed
-
-# run dev
-npm run dev
-
-# localhost:3000
 ```
 
 ## Login
